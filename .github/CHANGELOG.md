@@ -101,6 +101,7 @@
 1. [CDU] Ported system messages type II to actual type II - @MisterChocker (Leon)
 1. [ECAM] Implemented proper FWC flight phases - @beheh (Benedict Etzel)
 1. [ECAM] Updated ECAM messages - @beheh (Benedict Etzel)
+1. [CDU] Partial AIRPORT key support - @arseneyr (Sunny)
 
 ## 0.4.0
 1. [General] Add CHANGELOG.md - @nathaninnes (Nathan Innes)
