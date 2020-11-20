@@ -1,5 +1,5 @@
 class CDUFlightPlanPage {
-    static ShowPage(mcdu, offset = 0) {
+    static ShowPage(mcdu, offset = 0, airportKey = false) {
         mcdu.clearDisplay();
         mcdu.page.Current = mcdu.page.FlightPlanPage;
         mcdu.activeSystem = 'FMGC';
@@ -117,6 +117,15 @@ class CDUFlightPlanPage {
                 ["------", "---- ----", "----"]
             ];
         }
+
+        if (airportKey) {
+            if (CDUFlightPlanPage._airportKeyState === 'destination') {
+                offset = waypointsWithDiscontinuities.length - 1;
+            } else if (CDUFlightPlanPage._airportKeyState === 'origin') {
+                offset = 0;
+            }
+        }
+
         let iWaypoint = offset;
         let lastAltitudeConstraint = "";
         let lastSpeedConstraint = "";
@@ -387,5 +396,24 @@ class CDUFlightPlanPage {
             CDUFlightPlanPage.ShowPage(mcdu, offset);
         };
     }
+
+    static ShowPageAirportKey(mcdu) {
+        if ((mcdu.page.Current !== mcdu.page.FlightPlanPage ||
+                    CDUFlightPlanPage._airportKeyState === null ||
+                    CDUFlightPlanPage._airportKeyState === 'origin') &&
+                mcdu.flightPlanManager.getDestination()) {
+
+            CDUFlightPlanPage._airportKeyState = "destination";
+        } else if (CDUFlightPlanPage._airportKeyState === 'destination' &&
+                mcdu.currentFlightPhase < FlightPhase.FLIGHT_PHASE_TAKEOFF &&
+                mcdu.flightPlanManager.getOrigin()) {
+
+            CDUFlightPlanPage._airportKeyState = 'origin';
+        } else {
+            // TODO: Add 'alternate' state when ALTN routing added
+        }
+        CDUFlightPlanPage.ShowPage(mcdu, 0, true);
+    }
 }
 CDUFlightPlanPage._timer = 0;
+CDUFlightPlanPage._airportKeyState = null;

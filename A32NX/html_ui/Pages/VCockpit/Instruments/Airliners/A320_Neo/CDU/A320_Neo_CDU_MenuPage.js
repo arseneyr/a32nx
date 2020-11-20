@@ -172,6 +172,14 @@ class CDUMenuPage {
                 }
             }, mcdu.getDelaySwitchPage());
         };
+        mcdu.onAirport = () => {
+            const cur = mcdu.page.Current;
+            setTimeout(() => {
+                if (mcdu.page.Current === cur) {
+                    CDUFlightPlanPage.ShowPageAirportKey(mcdu);
+                }
+            }, mcdu.getDelaySwitchPage());
+        };
         mcdu.onRad = () => {
             const cur = mcdu.page.Current;
             setTimeout(() => {
